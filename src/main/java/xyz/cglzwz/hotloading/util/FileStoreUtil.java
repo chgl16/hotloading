@@ -59,6 +59,11 @@ public class FileStoreUtil {
         return path;
     }
 
+    /**
+     * 文件保存到jar包内试试
+     *
+     * @param name
+     */
     public static void newFile(String name) {
         String path = FileStoreUtil.class.getResource("/").toString().substring(6);
         File file = new File(path, name);
