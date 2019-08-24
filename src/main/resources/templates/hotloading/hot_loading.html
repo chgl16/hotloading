@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>热加载测试页面</title>
+    <!-- Bootstrap -->
+    <link th:href="@{/assets/bootstrap/css/bootstrap.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/toastr/css/toastr.min.css}" rel="stylesheet"/>
+    <link th:href="@{/hotloading/css/hot-loading.css}" rel="stylesheet"/>
+</head>
+<body>
+<div class="text-center" style="margin-top: 100px">
+    <input id="classFile" type="file" accept=".class" style="display:none"/>
+    <div class="input-append">
+        <input id="pathCover" placeholder="请选择 *.class 文件上传" class="input-large my-input" type="text"/>
+        <button id="select" class="btn btn-sm btn-primary my-btn">浏览</button>
+    </div>
+    <br/>
+    <div>
+        <input id="packagePath" type="text" class="input-large my-input" placeholder="请输入包路径，如 java.util.concurrent" />
+        <button id="load" class="btn btn-sm btn-success my-btn">加载</button>
+    </div>
+</div>
+</body>
+
+<!-- jQuery -->
+<script th:src="@{/assets/jquery/jquery.min.js}"></script>
+<script th:src="@{/assets/toastr/js/toastr.min.js}"></script>
+<script th:src="@{/hotloading/js/hot-loading.js}"></script>
+
+</html>
