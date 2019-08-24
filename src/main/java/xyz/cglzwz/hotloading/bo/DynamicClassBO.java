@@ -12,7 +12,7 @@ import xyz.cglzwz.hotloading.entity.PropertyBean;
  */
 public class DynamicClassBO implements DynamicInterface {
 
-    @Autowired
+    @Autowired(required = false)
     public PropertyBean propertyBean;
 
     public void sayHi() {
