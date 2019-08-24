@@ -32,7 +32,7 @@ public class HotLoadingController {
             hotLoadingService.loadClass(file, packagePath);
             return "success";
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
             return e.getMessage();
         }
     }
