@@ -46,9 +46,9 @@ public class RegisterBeanUtil {
         Field[] fields = cls.getFields();
         for (Field field : fields) {
             // 容器存在这个属性则注入，按编码习惯的名字，没有按类型。（用户输入的也是名字）
-            if (SpringContextUtil.getBean(field.getName()) != null) {
+            if (defaultListableBeanFactory.isBeanNameInUse(field.getName())) {
                 // 第一个参数是类的属性名，第二个是容器中需要的bean的beanNam
-                // beanDefinitionBuilder.addPropertyReference(field.getName(), field.getName());
+                beanDefinitionBuilder.addPropertyReference(field.getName(), field.getName());
             }
         }
 
