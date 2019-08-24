@@ -5,7 +5,7 @@
 ![效果展示](https://i.loli.net/2019/08/24/waHUJ1583f6iOgP.png)
 
 &emsp;&emsp;服务使用过程中，希望在不重启服务的情况下，动态加载某些class/scalar/jar到项目中使用，
-即托管到Spring容器，并能实现属性依赖的注入。（本模块只加载class），同时也保证 **热更新**  
+即托管到Spring容器，并能实现属性依赖的注入。（本模块只加载class），同时也保证**热更新**。  
 &emsp;&emsp;这些外部网络加载来的class一般实现服务里的某些业务接口，即希望后续动作bean组件使用。
 指定beanName即可，这里默认beanName为类名lowCamel形式。
 
@@ -98,7 +98,7 @@ public class CustomClassLoader extends ClassLoader {
 自定义类加载器只需要重写findClass(name)方法即可，调用的时候是调用loadClass(name)方法，因为这里不需要
 破坏双亲委派逻辑，调用链为loadClass -> findClass -> defineClass。  
 
-这里需要注入的是 **要保证自定义的类加载器父加载器是Spring加载器** ，因为加载的class存在某些spring特性类（比如注解@Autowrited）,这些是需要Spring加载器加载的。  
+这里需要注意的是**要保证自定义的类加载器父加载器是Spring加载器**，因为加载的class存在某些spring特性类（比如注解@Autowrited）,这些是需要Spring加载器加载的。  
 
 实现方法很简单，把CustomClassLoader注册为@Component，即自定义的加载器被Spring加载器加载，那么构造方法的super(CustomClassLoader.class.getClassLoader())就是指定了父加载器。  
 
@@ -181,11 +181,12 @@ public class HotloadingApplication {
 }
 ```
 容器在启动类处保存到工具类即可。保证容器唯一。  
+以下这种方法会错误失败
 ```java
 @Autowired
 private ApplicationContext applicationContext;
 ```
-这种会失败错误。  
+  
 
 * RegisterBeanUtil
 ```java
@@ -265,8 +266,8 @@ public class RegisterBeanUtil {
 }
 ```
 最核心的一个工具类，这些spring都封装很多了，spring容器相当于把加载到方法区Class获取创建id-class对象的形式维护到一个map中，  
-这里的builder先获取class定义（创建者模型创建了一个实例，bean生命周期第一步）然后加入属性（其实属性setter注入就是bean周期的第二步）。  
-最后就算注册大容器了。  
+这里的builder先获取class定义（创建者模式源码内部创建了一个实例，属于bean生命周期第一步）然后加入属性（就是属性setter注入，属于bean生命周期的第二步）。  
+最后就算注册到容器了。  
 
 >这里的判断容器是否存在一个bean这里不能使用SpringContext.getBean(beanName) 或者 defaultListableBeanFactory.getBean(beanName)判断。  
 >因为这个getBean方法必须保证bean存在容器的，不存在不会有null返回，直接异常中断程序，当然可以选择捕获异常不抛出保证程序继续执行。  
